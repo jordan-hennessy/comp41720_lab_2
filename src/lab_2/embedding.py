@@ -17,6 +17,10 @@ from lab_2.config import DOCUMENT_STORED_QUEUE, EMBEDDING_RESULTS_QUEUE, RABBITM
 FAILURE_RATE = float(os.environ.get("FAILURE_RATE", "0.0"))
 
 
+# Message IDs already handled (idempotency guard). In memory, so it resets on restart.
+handled = set()
+
+
 # --- Embedder ---
 
 
@@ -34,6 +38,12 @@ def embed(text: str) -> list[int]:
 def on_message(ch, method, properties, body):
     event = json.loads(body)
     print(f"Received {event['document_id']}")
+
+    # A redelivered event must not be embedded twice.
+    if event["message_id"] in handled:
+        print(f"Duplicate {event['message_id']}, ignoring")
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+        return
 
     # A failed embedding is reported as an event, not a crash, so the Document service can compensate.
     try:
@@ -54,6 +64,8 @@ def on_message(ch, method, properties, body):
         properties=pika.BasicProperties(delivery_mode=2),
     )
     print(f"Published {result_type} for {event['document_id']}")
+
+    handled.add(event["message_id"])
 
     # Ack only after publishing, so a crash means redelivery, not loss.
     ch.basic_ack(delivery_tag=method.delivery_tag)
