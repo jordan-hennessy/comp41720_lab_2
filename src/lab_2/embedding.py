@@ -1,6 +1,5 @@
 import hashlib
 import json
-import os
 import random
 import threading
 import time
@@ -9,13 +8,14 @@ from contextlib import asynccontextmanager
 import pika
 from fastapi import FastAPI
 
-from lab_2.config import DOCUMENT_STORED_QUEUE, EMBEDDING_RESULTS_QUEUE, RABBITMQ_HOST
+from lab_2.config import (
+    DOCUMENT_STORED_QUEUE,
+    EMBEDDING_RESULTS_QUEUE,
+    FAILURE_RATE,
+    RABBITMQ_HOST,
+)
 
 # --- Settings ---
-
-# Chance (0.0 to 1.0) that an embedding fails, e.g. FAILURE_RATE=1.0
-FAILURE_RATE = float(os.environ.get("FAILURE_RATE", "0.0"))
-
 
 # Message IDs already handled (idempotency guard). In memory, so it resets on restart.
 handled = set()
