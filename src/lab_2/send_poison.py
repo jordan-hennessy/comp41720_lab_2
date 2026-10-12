@@ -6,7 +6,7 @@ is recorded as "processing" first so GET /result/{id} works for it.
 
 import uuid
 
-from lab_1.producer import publish, save_result
+from lab_2.producer import publish, save_result
 
 if __name__ == "__main__":
     request_id = str(uuid.uuid4())

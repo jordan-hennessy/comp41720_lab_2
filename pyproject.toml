@@ -1,5 +1,5 @@
 [project]
-name = "lab_1"
+name = "lab_2"
 version = "0.1.0"
 description = ""
 authors = [
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{ include = "lab_1", from = "src" }]
+packages = [{ include = "lab_2", from = "src" }]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

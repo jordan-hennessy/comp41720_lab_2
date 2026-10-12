@@ -4,12 +4,12 @@ import os
 import httpx
 import pika
 
-from lab_1.producer import QUEUE_NAME, RABBITMQ_HOST, declare_topology, save_result
+from lab_2.producer import QUEUE_NAME, RABBITMQ_HOST, declare_topology, save_result
 
 MAX_RETRIES = 3
 
 # Overridable so the AI dependency can be broken without editing code, e.g.
-#   AI_URL=http://localhost:9999/api/generate python -m lab_1.consumer
+#   AI_URL=http://localhost:9999/api/generate python -m lab_2.consumer
 AI_URL = os.environ.get("AI_URL", "http://localhost:11434/api/generate")
 AI_MODEL = os.environ.get("AI_MODEL", "llama3.2:1b")
 
