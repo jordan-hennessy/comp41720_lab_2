@@ -40,3 +40,7 @@ def release(req: QuotaRequest) -> dict:
 @app.get("/quota/state")
 def state() -> dict:
     return {"reserved_units": sum(reserved.values())}
+
+
+# RUN 
+# poetry run uvicorn lab_2.quota:app --port 8081

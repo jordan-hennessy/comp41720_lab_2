@@ -211,3 +211,7 @@ def get_status(document_id: str) -> dict:
     if row is None:
         raise HTTPException(status_code=404, detail="Unknown document ID")
     return {"id": document_id, "status": row[0]}
+
+
+# RUN
+# poetry run uvicorn lab_2.document:app --port 8082

@@ -100,3 +100,6 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/embedding/health")
 def health() -> dict:
     return {"status": "ok"}
+
+# RUN
+# poetry run uvicorn lab_2.embedding:app --port 8083
